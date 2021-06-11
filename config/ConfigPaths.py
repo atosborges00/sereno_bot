@@ -6,7 +6,7 @@ from os import path
 class ConfigPaths:
     
     """ Root path for the application """
-    _ROOT_DIR = ""
+    _ROOT_DIR = path.dirname(path.dirname(path.abspath(__file__)))
     
     """ Path for chrome webdriver """
     CHROME_PATH = path.join(_ROOT_DIR, "chromedriver.exe")

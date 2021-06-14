@@ -15,6 +15,8 @@ class PlantsLoader(BaseLoader):
         # deleting the columns-names row from the table
         del self._table[0]
 
+    """ Properties for the Plants object """
+
     @property
     def id(self) -> list:
         return self._get_column(self._COLUMN_MAP['id'])

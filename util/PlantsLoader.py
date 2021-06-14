@@ -17,28 +17,28 @@ class PlantsLoader(BaseLoader):
 
     @property
     def id(self) -> list:
-        return self.get_column(self._COLUMN_MAP['id'])
+        return self._get_column(self._COLUMN_MAP['id'])
 
     @property
     def platform(self) -> list:
-        return self.get_column(self._COLUMN_MAP['platform'])
+        return self._get_column(self._COLUMN_MAP['platform'])
 
     @property
     def plant_name(self) -> list:
-        return self.get_column(self._COLUMN_MAP['plant_name'])
+        return self._get_column(self._COLUMN_MAP['plant_name'])
 
     @property
     def installed_power(self) -> list:
-        return self.get_column(self._COLUMN_MAP['installed_power'])
+        return self._get_column(self._COLUMN_MAP['installed_power'])
 
     @property
     def code(self) -> list:
-        return self.get_column(self._COLUMN_MAP['code'])
+        return self._get_column(self._COLUMN_MAP['code'])
 
     @property
     def login_info(self) -> list:
-        return self.get_column(self._COLUMN_MAP['login_info'])
+        return self._get_column(self._COLUMN_MAP['login_info'])
 
     @property
     def client_id(self) -> list:
-        return self.get_column(self._COLUMN_MAP['client_id'])
+        return self._get_column(self._COLUMN_MAP['client_id'])

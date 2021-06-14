@@ -7,7 +7,7 @@ class BaseLoader:
 
     """ BaseLoader super class for importing CSV files """
     def __init__(self, file_path):
-        with open(file_path, newline='\n', encoding='utf-8') as file:
+        with open(file_path, newline='\n', encoding='utf-8-sig') as file:
             self.table = list(reader(file, delimiter=";"))
 
     """ Common methods for all children classes """

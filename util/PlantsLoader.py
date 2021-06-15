@@ -14,7 +14,7 @@ class PlantsLoader(BaseLoader):
         del self._table[0]
 
         self.sices = self._set_platform_index('SICES')
-        self.auroravision = self._set_platform_index('AURORA_VISION')
+        self.auroravision = self._set_platform_index('AURORA VISION')
         self.isolarcloud = self._set_platform_index('ISOLARCLOUD')
 
     """ Properties for the Plants object """

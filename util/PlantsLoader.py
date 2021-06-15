@@ -10,10 +10,12 @@ class PlantsLoader(BaseLoader):
     def __init__(self, file_path) -> None:
         super().__init__(file_path)
 
-        # mapping the columns-names to a dictionary
         self._COLUMN_MAP = {column: self._table[0].index(column) for column in self._table[0]}
-        # deleting the columns-names row from the table
         del self._table[0]
+
+        self.sices = self._set_platform_index('SICES')
+        self.auroravision = self._set_platform_index('AURORA_VISION')
+        self.isolarcloud = self._set_platform_index('ISOLARCLOUD')
 
     """ Properties for the Plants object """
 
@@ -22,25 +24,38 @@ class PlantsLoader(BaseLoader):
         return self._get_column(self._COLUMN_MAP['id'])
 
     @property
-    def platform(self) -> list:
-        return self._get_column(self._COLUMN_MAP['platform'])
+    def platform_names(self) -> list:
+        return self._get_column(self._COLUMN_MAP['platform_names'])
 
     @property
-    def plant_name(self) -> list:
-        return self._get_column(self._COLUMN_MAP['plant_name'])
+    def plants_names(self) -> list:
+        return self._get_column(self._COLUMN_MAP['plants_names'])
 
     @property
-    def installed_power(self) -> list:
-        return self._get_column(self._COLUMN_MAP['installed_power'])
+    def installed_powers(self) -> list:
+        return self._get_column(self._COLUMN_MAP['installed_powers'])
 
     @property
-    def code(self) -> list:
-        return self._get_column(self._COLUMN_MAP['code'])
+    def codes(self) -> list:
+        return self._get_column(self._COLUMN_MAP['codes'])
 
     @property
-    def login_info(self) -> list:
-        return self._get_column(self._COLUMN_MAP['login_info'])
+    def login_codes(self) -> list:
+        return self._get_column(self._COLUMN_MAP['login_codes'])
 
     @property
-    def client_id(self) -> list:
-        return self._get_column(self._COLUMN_MAP['client_id'])
+    def clients_ids(self) -> list:
+        return self._get_column(self._COLUMN_MAP['clients_ids'])
+
+    """ Methods for important queries """
+
+    def _set_platform_index(self, name) -> dict:
+        """ Returns the starting index and ending index on the table of a given platform """
+
+        _platform_indices = [index for index in range(len(self.platform_names)) if self.platform_names[index] == name]
+        return {'starting_index': _platform_indices[0], 'ending_index': _platform_indices[-1]}
+
+    def head(self, row_range=5):
+        """ Returns the first n rows of the plants table """
+
+        return [self._get_row(row_number) for row_number in range(row_range)]

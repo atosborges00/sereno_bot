@@ -20,7 +20,7 @@ class PlantsLoader(BaseLoader):
 
     @property
     def id(self) -> list:
-        return self._get_column(self._COLUMN_MAP['id'])
+        return self._get_column(self._COLUMN_MAP['id'], 'int')
 
     @property
     def platform_names(self) -> list:
@@ -32,7 +32,7 @@ class PlantsLoader(BaseLoader):
 
     @property
     def installed_powers(self) -> list:
-        return self._get_column(self._COLUMN_MAP['installed_powers'])
+        return self._get_column(self._COLUMN_MAP['installed_powers'], 'float')
 
     @property
     def codes(self) -> list:
@@ -40,7 +40,7 @@ class PlantsLoader(BaseLoader):
 
     @property
     def login_codes(self) -> list:
-        return self._get_column(self._COLUMN_MAP['login_codes'])
+        return self._get_column(self._COLUMN_MAP['login_codes'], 'int')
 
     @property
     def clients_ids(self) -> list:

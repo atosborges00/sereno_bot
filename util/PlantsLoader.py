@@ -11,7 +11,6 @@ class PlantsLoader(BaseLoader):
         super().__init__(file_path)
 
         self._COLUMN_MAP = {column: self._table[0].index(column) for column in self._table[0]}
-        del self._table[0]
 
         self.sices = self._set_platform_index('SICES')
         self.auroravision = self._set_platform_index('AURORA VISION')

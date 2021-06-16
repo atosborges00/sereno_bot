@@ -3,7 +3,7 @@ from config.ConfigPaths import ConfigPaths
 
 class ConfigSices:
     
-    """ Sices login page URL """
-    LOGIN_URL = 'https://monitoramento.sicessolar.com.br/login'
+    """ Sices platform useful URLs """
 
-    """ Paths for the files containing login information """
+    LOGIN_URL = 'https://monitoramento.sicessolar.com.br/login'
+    ANALYTICS_PAGE = 'https://monitoramento.sicessolar.com.br/analytics?und={code}'

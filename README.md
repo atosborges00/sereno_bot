@@ -2,19 +2,18 @@
 
 The Cruze bot for scraping data from the clients in all monitoring platforms used by the company.
 
-- Tech Leader: Atos Borges
-- Collaborators: 
+- Tech Leader: [Atos Borges](https://www.linkedin.com/in/atos-borges/)
 
 ## Version
 
-The bot is currently on 'version 1.0', the first version implemented with modularization.
+The bot is currently on `version 1.0`, the first version implemented with modularization.
 
 ## Packages
 
 Run the follwing commands on the terminal to install the dependecies needed on the virtual enviroment.
 
-- 'pip install selenium'
+- `pip install selenium`
 
 ## Licensing
 
- All rights reserved to *Cruze Energia*
+ All rights reserved to [Cruze Energia](https://energiacruze.com/)

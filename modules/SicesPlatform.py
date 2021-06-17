@@ -29,3 +29,6 @@ class SicesPlatform(BasePage):
 
         if not units_button_located:
             raise RuntimeError("Incapable of doing login")
+
+    def get_analytics_page(self, plant_code):
+        self.driver.get(ConfigSices.ANALYTICS_PAGE.format(code=plant_code))

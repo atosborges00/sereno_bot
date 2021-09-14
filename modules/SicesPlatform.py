@@ -38,3 +38,11 @@ class SicesPlatform(BasePage):
         if not calendar_button_located:
             raise RuntimeError("Unable to open the Analytics page on the platform")
 
+    def _open_calendar(self):
+        calendar_button_clickable = self.is_clickable(self._CALENDAR_BUTTON_LOCATOR)
+
+        if not calendar_button_clickable:
+            raise RuntimeError("Unable to interact with the calendar button")
+
+        if calendar_button_clickable:
+            self.do_click(self._CALENDAR_BUTTON_LOCATOR)

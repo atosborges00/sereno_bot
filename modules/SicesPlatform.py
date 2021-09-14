@@ -14,6 +14,7 @@ class SicesPlatform(BasePage):
     _UNITS_BUTTON_LOCATOR = (By.XPATH, "//a[@id='linkUnidades']")
     _CALENDAR_BUTTON_LOCATOR = (By.XPATH, "//div[@id='calendario']")
     _YESTERDAY_BUTTON_LOCATOR = (By.XPATH, "//li[@data-range-key='Ontem']")
+    _WEEK_BUTTON_LOCATOR = (By.XPATH, "//li[@data-range-key='Últimos 7 Dias']")
 
     """ Class constructor extending BasePage """
 
@@ -57,3 +58,13 @@ class SicesPlatform(BasePage):
 
         if yesterday_button_clickable:
             self.do_click(self._YESTERDAY_BUTTON_LOCATOR)
+
+    def get_week_analytics(self):
+        self._open_calendar()
+        week_button_clickable = self.is_clickable(self._WEEK_BUTTON_LOCATOR)
+
+        if not week_button_clickable:
+            raise RuntimeError("Unable to interact with the 'Últimos 7 dias' button")
+
+        if week_button_clickable:
+            self.do_click(self._WEEK_BUTTON_LOCATOR)

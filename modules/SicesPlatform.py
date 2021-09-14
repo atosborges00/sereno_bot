@@ -12,6 +12,7 @@ class SicesPlatform(BasePage):
     _PASSWORD_LOCATOR = (By.XPATH, "//input[@class='form-control password']")
     _LOGIN_BUTTON_LOCATOR = (By.XPATH, "//button[@type['submit']]")
     _UNITS_BUTTON_LOCATOR = (By.XPATH, "//a[@id='linkUnidades']")
+    _CALENDAR_BUTTON_LOCATOR = (By.XPATH, "//div[@id='calendario']")
 
     """ Class constructor extending BasePage """
 
@@ -28,7 +29,12 @@ class SicesPlatform(BasePage):
         units_button_located = self.is_present(self._UNITS_BUTTON_LOCATOR)
 
         if not units_button_located:
-            raise RuntimeError("Incapable of doing login")
+            raise RuntimeError("Unable to login")
 
     def get_analytics_page(self, plant_code):
         self.driver.get(ConfigSices.ANALYTICS_PAGE.format(code=plant_code))
+        calendar_button_located = self.is_present(self._CALENDAR_BUTTON_LOCATOR)
+
+        if not calendar_button_located:
+            raise RuntimeError("Unable to open the Analytics page on the platform")
+

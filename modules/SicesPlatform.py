@@ -13,6 +13,7 @@ class SicesPlatform(BasePage):
     _LOGIN_BUTTON_LOCATOR = (By.XPATH, "//button[@type['submit']]")
     _UNITS_BUTTON_LOCATOR = (By.XPATH, "//a[@id='linkUnidades']")
     _CALENDAR_BUTTON_LOCATOR = (By.XPATH, "//div[@id='calendario']")
+    _DOWNLOAD_BUTTON_LOCATOR = (By.XPATH, "//button[@id='botao-download']")
 
     """ Class constructor extending BasePage """
 
@@ -58,3 +59,14 @@ class SicesPlatform(BasePage):
 
         if period_button_clickable:
             self.do_click(_PERIOD_BUTTON_LOCATOR)
+
+    def do_download(self) -> bool:
+        download_button_clickable = self.is_clickable(self._DOWNLOAD_BUTTON_LOCATOR)
+
+        if not download_button_clickable:
+            return False
+
+        if download_button_clickable:
+            self.do_click(self._DOWNLOAD_BUTTON_LOCATOR)
+            _ = self.is_clickable(self._DOWNLOAD_BUTTON_LOCATOR)
+            return True

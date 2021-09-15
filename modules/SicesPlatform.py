@@ -1,6 +1,7 @@
 from modules.BasePage import BasePage
 from config.ConfigSices import ConfigSices
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 
 """ Class dedicated to interact with Sices Platform """
 
@@ -14,6 +15,11 @@ class SicesPlatform(BasePage):
     _UNITS_BUTTON_LOCATOR = (By.XPATH, "//a[@id='linkUnidades']")
     _CALENDAR_BUTTON_LOCATOR = (By.XPATH, "//div[@id='calendario']")
     _DOWNLOAD_BUTTON_LOCATOR = (By.XPATH, "//button[@id='botao-download']")
+
+    """ Platform options configuration """
+
+    SICES_OPTIONS = Options()
+    SICES_OPTIONS.add_experimental_option("prefs", ConfigSices.PREFERENCES)
 
     """ Class constructor extending BasePage """
 

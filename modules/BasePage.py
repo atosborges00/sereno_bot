@@ -1,5 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from os.path import isfile, join
+from os import listdir
 
 """ This class is the parent class for all page classes. It contains all common methods an utilities for all pages """
 
@@ -33,3 +35,18 @@ class BasePage:
     def is_clickable(self, by_locator) -> bool:
         element = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(by_locator))
         return bool(element)
+
+    def check_downloads_chrome(self) -> list:
+        if not self.driver.current_url.startswith("chrome://downloads"):
+            self.driver.get("chrome://downloads/")
+
+        return self.driver.execute_script("""
+            const items = document.querySelector('downloads-manager').shadowRoot.getElementById('downloadsList').items;
+            
+            if (items.every(e => e.state === "COMPLETE"))
+                return items.map(e => e.fileUrl || e.file_url);
+            """)
+
+    @staticmethod
+    def get_files_in(directory_path) -> list:
+        return [file for file in listdir(directory_path) if isfile(join(directory_path, file))]

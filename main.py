@@ -23,3 +23,5 @@ if __name__ == '__main__':
     sices.get_analytics_from('Últimos 7 Dias')
 
     sices.do_download()
+
+    download_success = sices.check_download(plants.plants_names[0])

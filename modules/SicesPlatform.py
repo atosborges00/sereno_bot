@@ -76,3 +76,15 @@ class SicesPlatform(BasePage):
             self.do_click(self._DOWNLOAD_BUTTON_LOCATOR)
             _ = self.is_clickable(self._DOWNLOAD_BUTTON_LOCATOR)
             return True
+
+    def check_download(self, plant_name) -> bool:
+        _ = self.check_downloads_chrome()
+
+        downloaded_files = self.get_files_in(ConfigSices.PREFERENCES['download.default_directory'])
+        matches_found = [file for file in downloaded_files if plant_name in file]
+
+        if matches_found:
+            return True
+
+        if not matches_found:
+            return False

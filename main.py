@@ -25,3 +25,7 @@ if __name__ == '__main__':
     sices.do_download()
 
     download_success = sices.check_download(plants.plants_names[0])
+
+    sices.get_analytics_page(plants.codes[0])
+
+    sices.do_logout()

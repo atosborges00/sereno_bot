@@ -15,6 +15,8 @@ class SicesPlatform(BasePage):
     _UNITS_BUTTON_LOCATOR = (By.XPATH, "//a[@id='linkUnidades']")
     _CALENDAR_BUTTON_LOCATOR = (By.XPATH, "//div[@id='calendario']")
     _DOWNLOAD_BUTTON_LOCATOR = (By.XPATH, "//button[@id='botao-download']")
+    _DROP_MENU_LOCATOR = (By.XPATH, "//i[@class='fa fa-caret-down']")
+    _LOGOUT_BUTTON_LOCATOR = (By.XPATH, "//a[@href='https://monitoramento.sicessolar.com.br/login/sair']")
 
     """ Platform options configuration """
 
@@ -76,6 +78,26 @@ class SicesPlatform(BasePage):
             self.do_click(self._DOWNLOAD_BUTTON_LOCATOR)
             _ = self.is_clickable(self._DOWNLOAD_BUTTON_LOCATOR)
             return True
+
+    def _open_drop_menu(self):
+        drop_button_clickable = self.is_clickable(self._DROP_MENU_LOCATOR)
+
+        if not drop_button_clickable:
+            raise RuntimeError("Unable to interact with the Drop Menu button")
+
+        if drop_button_clickable:
+            self.do_click(self._DROP_MENU_LOCATOR)
+
+    def do_logout(self):
+        self._open_drop_menu()
+
+        logout_button_clickable = self .is_clickable(self._LOGOUT_BUTTON_LOCATOR)
+
+        if not logout_button_clickable:
+            raise RuntimeError("Unable to interact with the Logout button")
+
+        if logout_button_clickable:
+            self.do_click(self._LOGOUT_BUTTON_LOCATOR)
 
     def check_download(self, plant_name) -> bool:
         _ = self.check_downloads_chrome()

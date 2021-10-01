@@ -153,5 +153,8 @@ fabric.properties
 #Database
 database
 
+#Raw Data folder
+raw_data
+
 # Add here the name of your virtual enviroment
 

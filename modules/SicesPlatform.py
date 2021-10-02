@@ -2,6 +2,7 @@ from modules.BasePage import BasePage
 from config.ConfigSices import ConfigSices
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from time import sleep
 
 """ Class dedicated to interact with Sices Platform """
 
@@ -77,6 +78,7 @@ class SicesPlatform(BasePage):
         if download_button_clickable:
             self.do_click(self._DOWNLOAD_BUTTON_LOCATOR)
             _ = self.is_clickable(self._DOWNLOAD_BUTTON_LOCATOR)
+            sleep(6)
             return True
 
     def _open_drop_menu(self):

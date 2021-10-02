@@ -13,3 +13,19 @@ def run(plants, keys):
     sices = SicesPlatform(driver)
 
     sices.do_login(keys.logins[PLATFORM_INDEX], keys.passwords[PLATFORM_INDEX])
+
+    for plant in PLATFORM_PLANTS_INDICES:
+
+        sices.get_analytics_page(plants.codes[plant])
+        sices.get_analytics_from('Mês Passado')
+
+        downloaded = sices.do_download()
+
+        if downloaded:
+            checked = sices.check_download(plants.plants_names[plant])
+
+            if checked:
+                print("{plant_name} download confirmed".format(plant_name=plants.plants_names[plant]))
+
+        if not downloaded:
+            print("Unable to download {plant_name} data".format(plant_name=plants.plants_names[plant]))

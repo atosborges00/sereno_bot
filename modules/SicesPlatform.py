@@ -69,7 +69,7 @@ class SicesPlatform(BasePage):
         if period_button_clickable:
             self.do_click(_PERIOD_BUTTON_LOCATOR)
 
-    def do_download(self) -> bool:
+    def do_download(self, sleep_time=6) -> bool:
         download_button_clickable = self.is_clickable(self._DOWNLOAD_BUTTON_LOCATOR)
 
         if not download_button_clickable:
@@ -78,7 +78,7 @@ class SicesPlatform(BasePage):
         if download_button_clickable:
             self.do_click(self._DOWNLOAD_BUTTON_LOCATOR)
             _ = self.is_clickable(self._DOWNLOAD_BUTTON_LOCATOR)
-            sleep(6)
+            sleep(sleep_time)
             return True
 
     def _open_drop_menu(self):
@@ -102,7 +102,6 @@ class SicesPlatform(BasePage):
             self.do_click(self._LOGOUT_BUTTON_LOCATOR)
 
     def check_download(self, plant_name) -> bool:
-        _ = self.check_downloads_chrome()
 
         downloaded_files = self.get_files_in(ConfigSices.PREFERENCES['download.default_directory'])
         matches_found = [file for file in downloaded_files if plant_name in file]

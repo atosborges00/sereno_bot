@@ -41,21 +41,10 @@ class BasePage:
 
     def is_clickable(self, by_locator) -> bool:
         try:
-            element = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(by_locator))
+            element = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable(by_locator))
             return bool(element)
         except TimeoutException:
             return False
-
-    def check_downloads_chrome(self) -> list:
-        if not self.driver.current_url.startswith("chrome://downloads"):
-            self.driver.get("chrome://downloads/")
-
-        return self.driver.execute_script("""
-            const items = document.querySelector('downloads-manager').shadowRoot.getElementById('downloadsList').items;
-            
-            if (items.every(e => e.state === "COMPLETE"))
-                return items.map(e => e.fileUrl || e.file_url);
-            """)
 
     @staticmethod
     def get_files_in(directory_path) -> list:

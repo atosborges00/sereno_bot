@@ -1,6 +1,5 @@
 from os import path
 from config.ConfigPaths import ConfigPaths
-from selenium.webdriver.chrome.options import Options
 
 
 class ConfigSices:

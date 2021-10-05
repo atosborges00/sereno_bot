@@ -34,8 +34,8 @@ def _download_checking(sices_driver, downloaded, plants, plant, download_log, ex
             BaseController.export_log_file(download_log)
 
 
-def _set_download_path(month_name):
-    ConfigSices.PREFERENCES['download.default_directory'] = join(ConfigSices.RAW_DATA_PATH, month_name)
+def _set_download_path(folder_name):
+    ConfigSices.PREFERENCES['download.default_directory'] = join(ConfigSices.RAW_DATA_PATH, folder_name)
 
     SICES_OPTIONS = Options()
     SICES_OPTIONS.add_experimental_option("prefs", ConfigSices.PREFERENCES)
@@ -44,14 +44,14 @@ def _set_download_path(month_name):
 """ Functions to run all the operations on the SicesPage in the correct order """
 
 
-def run(plants, keys, time_period, month_name, exporting_option=True):
+def run(plants, keys, time_period, folder_name, exporting_option=True):
     download_log = []
     PLATFORM_INDEX = 0
     PLATFORM_PLANTS_INDICES = [index for index in range(len(plants.login_codes)) if plants.login_codes[index] == 1]
     INDIVIDUAL_PLANTS_INDICES = [index for index in range(len(plants.login_codes))
                                  if plants.login_codes[index] != 1 and plants.platform_names[index] == 'SICES']
 
-    _set_download_path(month_name)
+    _set_download_path(folder_name)
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=SicesPlatform.SICES_OPTIONS)
     sices = SicesPlatform(driver)
 

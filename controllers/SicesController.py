@@ -34,6 +34,22 @@ def _download_checking(sices_driver, downloaded, plants, plant, download_log, ex
             BaseController.export_log_file(download_log)
 
 
+def _final_checking(sices_driver, plants, export_log):
+    download_log = []
+
+    for plant in plants.plants_names[plants.sices['starting_index']:plants.sices['ending_index']]:
+        checked = sices_driver.check_download(plant)
+
+        if checked:
+            download_log.append([plant, 'OK'])
+
+        if not checked:
+            download_log.append([plant, 'SEM DADOS'])
+
+    if export_log:
+        BaseController.export_log_file(download_log)
+
+
 def _set_download_path(folder_name):
     ConfigSices.PREFERENCES['download.default_directory'] = join(ConfigSices.RAW_DATA_PATH, folder_name)
 
@@ -79,3 +95,5 @@ def run(plants, keys, time_period, folder_name, exporting_option=True):
         _download_checking(sices, downloaded, plants, current_plant, download_log, exporting_option)
 
         sices.do_logout()
+
+    _final_checking(sices, plants, exporting_option)

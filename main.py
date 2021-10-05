@@ -9,4 +9,4 @@ if __name__ == '__main__':
     plants = PlantsLoader(ConfigPaths.PLANTS)
     keys = LoginsLoader(ConfigPaths.LOGINS)
 
-    SicesController.run(plants, keys)
+    SicesController.run(plants, keys, 'Mês Passado')

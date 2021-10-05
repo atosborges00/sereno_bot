@@ -4,7 +4,37 @@ from modules.SicesPlatform import SicesPlatform
 from controllers import BaseController
 
 
-def run(plants, keys, export_log=True):
+""" Functions to operate the SicesController """
+
+
+def _get_analytics(sices_driver, plants, current_plant, time_period):
+    sices_driver.get_analytics_page(plants.codes[current_plant])
+    sices_driver.get_analytics_from(time_period)
+
+
+def _download_checking(sices_driver, downloaded, plants, plant, download_log, export_log):
+    if downloaded:
+        checked = sices_driver.check_download(plants.plants_names[plant])
+
+        if checked:
+            download_log.append([plants.plants_names[plant], 'OK'])
+            print("{plant_name} download confirmed".format(plant_name=plants.plants_names[plant]))
+
+            if export_log:
+                BaseController.export_log_file(download_log)
+
+    if not downloaded:
+        download_log.append([plants.plants_names[plant], 'SEM DADOS'])
+        print("Unable to download {plant_name} data".format(plant_name=plants.plants_names[plant]))
+
+        if export_log:
+            BaseController.export_log_file(download_log)
+
+
+""" Functions to run all the operations on the SicesPage in the correct order """
+
+
+def run(plants, keys, time_period, exporting_option=True):
     download_log = []
     PLATFORM_INDEX = 0
     PLATFORM_PLANTS_INDICES = [index for index in range(len(plants.login_codes)) if plants.login_codes[index] == 1]
@@ -14,28 +44,27 @@ def run(plants, keys, export_log=True):
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=SicesPlatform.SICES_OPTIONS)
     sices = SicesPlatform(driver)
 
-    sices.do_login(keys.logins[PLATFORM_INDEX], keys.passwords[PLATFORM_INDEX])
+    sices.do_login(keys.logins[PLATFORM_INDEX],
+                   keys.passwords[PLATFORM_INDEX])
 
-    for plant in PLATFORM_PLANTS_INDICES:
+    for current_plant in PLATFORM_PLANTS_INDICES:
 
-        sices.get_analytics_page(plants.codes[plant])
-        sices.get_analytics_from('Mês Passado')
+        _get_analytics(sices, plants, current_plant, time_period)
 
-        downloaded = sices.do_download()
+        downloaded = sices.do_download(sleep_time=6)
 
-        if downloaded:
-            checked = sices.check_download(plants.plants_names[plant])
+        _download_checking(sices, downloaded, plants, current_plant, download_log, exporting_option)
 
-            if checked:
-                download_log.append([plants.plants_names[plant], 'OK'])
-                print("{plant_name} download confirmed".format(plant_name=plants.plants_names[plant]))
+    sices.do_logout()
 
-                if export_log:
-                    BaseController.export_log_file(download_log)
+    for current_plant in INDIVIDUAL_PLANTS_INDICES:
+        sices.do_login(keys.logins[plants.login_codes[current_plant]-1],
+                       keys.passwords[plants.login_codes[current_plant]-1])
 
-        if not downloaded:
-            download_log.append([plants.plants_names[plant], 'SEM DADOS'])
-            print("Unable to download {plant_name} data".format(plant_name=plants.plants_names[plant]))
+        _get_analytics(sices, plants, current_plant, time_period)
 
-            if export_log:
-                BaseController.export_log_file(download_log)
+        downloaded = sices.do_download(sleep_time=6)
+
+        _download_checking(sices, downloaded, plants, current_plant, download_log, exporting_option)
+
+        sices.do_logout()

@@ -1,5 +1,6 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 from os.path import isfile, join
 from os import listdir
 
@@ -21,31 +22,32 @@ class BasePage:
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator)).send_keys(content)
 
     def get_element_text(self, by_locator) -> str:
-        element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator))
-        return element.text
+        try:
+            element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator))
+            return element.text
+        except TimeoutException:
+            return 'Text not found'
 
     def is_present(self, by_locator) -> bool:
-        element = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(by_locator))
-        return bool(element)
+        try:
+            element = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(by_locator))
+            return bool(element)
+        except TimeoutException:
+            return False
 
     def is_visible(self, by_locator) -> bool:
-        element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator))
-        return bool(element)
+        try:
+            element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator))
+            return bool(element)
+        except TimeoutException:
+            return False
 
     def is_clickable(self, by_locator) -> bool:
-        element = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(by_locator))
-        return bool(element)
-
-    def check_downloads_chrome(self) -> list:
-        if not self.driver.current_url.startswith("chrome://downloads"):
-            self.driver.get("chrome://downloads/")
-
-        return self.driver.execute_script("""
-            const items = document.querySelector('downloads-manager').shadowRoot.getElementById('downloadsList').items;
-            
-            if (items.every(e => e.state === "COMPLETE"))
-                return items.map(e => e.fileUrl || e.file_url);
-            """)
+        try:
+            element = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable(by_locator))
+            return bool(element)
+        except TimeoutException:
+            return False
 
     @staticmethod
     def get_files_in(directory_path) -> list:

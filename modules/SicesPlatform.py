@@ -2,6 +2,7 @@ from modules.BasePage import BasePage
 from config.ConfigSices import ConfigSices
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from time import sleep
 
 """ Class dedicated to interact with Sices Platform """
 
@@ -15,6 +16,7 @@ class SicesPlatform(BasePage):
     _UNITS_BUTTON_LOCATOR = (By.XPATH, "//a[@id='linkUnidades']")
     _CALENDAR_BUTTON_LOCATOR = (By.XPATH, "//div[@id='calendario']")
     _DOWNLOAD_BUTTON_LOCATOR = (By.XPATH, "//button[@id='botao-download']")
+    _MESSAGE_LOCATOR = (By.XPATH, "//span[@id='mensagem-info-text']")
     _DROP_MENU_LOCATOR = (By.XPATH, "//i[@class='fa fa-caret-down']")
     _LOGOUT_BUTTON_LOCATOR = (By.XPATH, "//a[@href='https://monitoramento.sicessolar.com.br/login/sair']")
 
@@ -63,12 +65,22 @@ class SicesPlatform(BasePage):
         period_button_clickable = self.is_clickable(_PERIOD_BUTTON_LOCATOR)
 
         if not period_button_clickable:
-            raise RuntimeError("Unable to interact with the {period} button".format(period=selected_period))
+            sleep(5)
+            period_button_clickable = self.is_clickable(_PERIOD_BUTTON_LOCATOR)
 
         if period_button_clickable:
             self.do_click(_PERIOD_BUTTON_LOCATOR)
 
-    def do_download(self) -> bool:
+    def _check_message(self):
+        message = self.get_element_text(self._MESSAGE_LOCATOR).split(' ')[0]
+
+        if message == 'Sucesso':
+            return True
+
+        if message != 'Sucesso':
+            return False
+
+    def do_download(self, sleep_time=6) -> bool:
         download_button_clickable = self.is_clickable(self._DOWNLOAD_BUTTON_LOCATOR)
 
         if not download_button_clickable:
@@ -77,7 +89,16 @@ class SicesPlatform(BasePage):
         if download_button_clickable:
             self.do_click(self._DOWNLOAD_BUTTON_LOCATOR)
             _ = self.is_clickable(self._DOWNLOAD_BUTTON_LOCATOR)
-            return True
+
+            success = self._check_message()
+
+            if success:
+                sleep(sleep_time)
+                return True
+
+            if not success:
+                sleep(sleep_time)
+                return True
 
     def _open_drop_menu(self):
         drop_button_clickable = self.is_clickable(self._DROP_MENU_LOCATOR)
@@ -100,7 +121,6 @@ class SicesPlatform(BasePage):
             self.do_click(self._LOGOUT_BUTTON_LOCATOR)
 
     def check_download(self, plant_name) -> bool:
-        _ = self.check_downloads_chrome()
 
         downloaded_files = self.get_files_in(ConfigSices.PREFERENCES['download.default_directory'])
         matches_found = [file for file in downloaded_files if plant_name in file]

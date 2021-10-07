@@ -16,6 +16,7 @@ class SicesPlatform(BasePage):
     _UNITS_BUTTON_LOCATOR = (By.XPATH, "//a[@id='linkUnidades']")
     _CALENDAR_BUTTON_LOCATOR = (By.XPATH, "//div[@id='calendario']")
     _DOWNLOAD_BUTTON_LOCATOR = (By.XPATH, "//button[@id='botao-download']")
+    _MESSAGE_LOCATOR = (By.XPATH, "//span[@id='mensagem-info-text']")
     _DROP_MENU_LOCATOR = (By.XPATH, "//i[@class='fa fa-caret-down']")
     _LOGOUT_BUTTON_LOCATOR = (By.XPATH, "//a[@href='https://monitoramento.sicessolar.com.br/login/sair']")
 
@@ -64,10 +65,20 @@ class SicesPlatform(BasePage):
         period_button_clickable = self.is_clickable(_PERIOD_BUTTON_LOCATOR)
 
         if not period_button_clickable:
-            raise RuntimeError("Unable to interact with the {period} button".format(period=selected_period))
+            sleep(5)
+            period_button_clickable = self.is_clickable(_PERIOD_BUTTON_LOCATOR)
 
         if period_button_clickable:
             self.do_click(_PERIOD_BUTTON_LOCATOR)
+
+    def _check_message(self):
+        message = self.get_element_text(self._MESSAGE_LOCATOR).split(' ')[0]
+
+        if message == 'Sucesso':
+            return True
+
+        if message != 'Sucesso':
+            return False
 
     def do_download(self, sleep_time=6) -> bool:
         download_button_clickable = self.is_clickable(self._DOWNLOAD_BUTTON_LOCATOR)
@@ -78,8 +89,16 @@ class SicesPlatform(BasePage):
         if download_button_clickable:
             self.do_click(self._DOWNLOAD_BUTTON_LOCATOR)
             _ = self.is_clickable(self._DOWNLOAD_BUTTON_LOCATOR)
-            sleep(sleep_time)
-            return True
+
+            success = self._check_message()
+
+            if success:
+                sleep(sleep_time)
+                return True
+
+            if not success:
+                sleep(sleep_time)
+                return True
 
     def _open_drop_menu(self):
         drop_button_clickable = self.is_clickable(self._DROP_MENU_LOCATOR)

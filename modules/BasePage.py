@@ -22,8 +22,11 @@ class BasePage:
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator)).send_keys(content)
 
     def get_element_text(self, by_locator) -> str:
-        element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator))
-        return element.text
+        try:
+            element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator))
+            return element.text
+        except TimeoutException:
+            return 'Text not found'
 
     def is_present(self, by_locator) -> bool:
         try:

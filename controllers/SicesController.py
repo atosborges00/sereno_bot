@@ -60,7 +60,7 @@ def _set_download_path(folder_name):
 """ Functions to run all the operations on the SicesPage in the correct order """
 
 
-def run(plants, keys, time_period, folder_name, exporting_option=True):
+def run(plants, keys, time_period, folder_name, exporting_option=True, sleep_time=6):
     download_log = []
     PLATFORM_INDEX = 0
     PLATFORM_PLANTS_INDICES = [index for index in range(len(plants.login_codes)) if plants.login_codes[index] == 1]
@@ -78,7 +78,7 @@ def run(plants, keys, time_period, folder_name, exporting_option=True):
 
         _get_analytics(sices, plants, current_plant, time_period)
 
-        downloaded = sices.do_download(sleep_time=6)
+        downloaded = sices.do_download(sleep_time)
 
         _download_checking(sices, downloaded, plants, current_plant, download_log, exporting_option)
 
@@ -90,7 +90,7 @@ def run(plants, keys, time_period, folder_name, exporting_option=True):
 
         _get_analytics(sices, plants, current_plant, time_period)
 
-        downloaded = sices.do_download(sleep_time=6)
+        downloaded = sices.do_download(sleep_time)
 
         _download_checking(sices, downloaded, plants, current_plant, download_log, exporting_option)
 

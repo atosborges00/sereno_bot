@@ -15,6 +15,7 @@ class AuroraPlatform(BasePage):
     _LOGIN_BUTTON_LOCATOR = (By.XPATH, "//button[@name='login-btn']")
     _DATES_NAV_LOCATOR = (By.XPATH, "//div[@class='nav']")
     _MTD_BUTTON = (By.XPATH, "//li[@duration='MTD']")
+    _PREVIOUS_BUTTON = (By.XPATH, "//a[@class='prev']")
 
     """ Class constructor extending BasePage """
 
@@ -39,3 +40,12 @@ class AuroraPlatform(BasePage):
 
         if month_button_clickable:
             self.do_click(self._MTD_BUTTON)
+
+    def select_previous(self):
+        previous_button_clickable = self.is_clickable(self._PREVIOUS_BUTTON)
+
+        if not previous_button_clickable:
+            raise RuntimeError("Unable to interact with the Previous button")
+
+        if previous_button_clickable:
+            self.do_click(self._PREVIOUS_BUTTON)

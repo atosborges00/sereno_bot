@@ -18,3 +18,4 @@ def run(plants, keys):
                     keys.passwords[plants.login_codes[PLANTS_INDICES[0]]-1])
 
     aurora.select_month_data()
+    aurora.select_previous()

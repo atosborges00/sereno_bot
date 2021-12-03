@@ -1,7 +1,6 @@
 from modules.BasePage import BasePage
 from config.ConfigAurora import ConfigAurora
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
 from time import sleep
 
 """ Class dedicated to interact with Aurora Platform """
@@ -16,6 +15,8 @@ class AuroraPlatform(BasePage):
     _DATES_NAV_LOCATOR = (By.XPATH, "//div[@class='nav']")
     _MTD_BUTTON = (By.XPATH, "//li[@duration='MTD']")
     _PREVIOUS_BUTTON = (By.XPATH, "//a[@class='prev']")
+    _NO_DATA_MESSAGE = (By.XPATH, "//div[@class='alert alert-info noChartData hideOnLoad']")
+    _DOWNLOAD_BUTTON = (By.XPATH, "//a[@class='btn btn-secondary download']")
 
     """ Class constructor extending BasePage """
 
@@ -41,7 +42,7 @@ class AuroraPlatform(BasePage):
         if month_button_clickable:
             self.do_click(self._MTD_BUTTON)
 
-    def select_previous(self):
+    def select_previous(self, sleep_time):
         previous_button_clickable = self.is_clickable(self._PREVIOUS_BUTTON)
 
         if not previous_button_clickable:
@@ -49,3 +50,20 @@ class AuroraPlatform(BasePage):
 
         if previous_button_clickable:
             self.do_click(self._PREVIOUS_BUTTON)
+            sleep(sleep_time)
+
+    def do_download(self, sleep_time):
+        download_button_clickable = self.is_clickable(self._DOWNLOAD_BUTTON)
+
+        if not download_button_clickable:
+            no_data_message_visible = self.is_visible(self._NO_DATA_MESSAGE)
+
+            if not no_data_message_visible:
+                raise RuntimeError("Unable to interact with the Download button")
+            if no_data_message_visible:
+                return False
+
+        if download_button_clickable:
+            self.do_click(self._DOWNLOAD_BUTTON)
+            sleep(sleep_time)
+            return True

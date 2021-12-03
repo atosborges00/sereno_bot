@@ -14,6 +14,7 @@ class AuroraPlatform(BasePage):
     _PASSWORD_LOCATOR = (By.XPATH, "//input[@id='password']")
     _LOGIN_BUTTON_LOCATOR = (By.XPATH, "//button[@name='login-btn']")
     _DATES_NAV_LOCATOR = (By.XPATH, "//div[@class='nav']")
+    _MTD_BUTTON = (By.XPATH, "//li[@duration='MTD']")
 
     """ Class constructor extending BasePage """
 
@@ -25,7 +26,16 @@ class AuroraPlatform(BasePage):
         self.do_send_keys(self._EMAIL_LOCATOR, username)
         self.do_send_keys(self._PASSWORD_LOCATOR, password)
         self.do_click(self._LOGIN_BUTTON_LOCATOR)
-        units_button_located = self.is_present(self._DATES_NAV_LOCATOR)
+        period_nav_located = self.is_present(self._DATES_NAV_LOCATOR)
 
-        if not units_button_located:
+        if not period_nav_located:
             raise RuntimeError("Unable to login")
+
+    def select_month_data(self):
+        month_button_clickable = self.is_clickable(self._DATES_NAV_LOCATOR)
+
+        if not month_button_clickable:
+            raise RuntimeError("Unable to interact with the MTD button")
+
+        if month_button_clickable:
+            self.do_click(self._MTD_BUTTON)

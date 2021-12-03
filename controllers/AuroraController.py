@@ -16,3 +16,5 @@ def run(plants, keys):
 
     aurora.do_login(keys.logins[plants.login_codes[PLANTS_INDICES[0]]-1],
                     keys.passwords[plants.login_codes[PLANTS_INDICES[0]]-1])
+
+    aurora.select_month_data()

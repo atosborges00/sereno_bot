@@ -49,6 +49,15 @@ class BasePage:
         except TimeoutException:
             return False
 
+    def open_drop_menu(self, locator):
+        menu_button_clickable = self.is_clickable(locator)
+
+        if not menu_button_clickable:
+            raise RuntimeError("Unable to interact with the Menu button")
+
+        if menu_button_clickable:
+            self.do_click(locator)
+
     @staticmethod
     def get_files_in(directory_path) -> list:
         return [file for file in listdir(directory_path) if isfile(join(directory_path, file))]

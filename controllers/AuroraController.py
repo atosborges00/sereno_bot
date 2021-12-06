@@ -29,3 +29,5 @@ def run(plants, keys, folder_name, sleep_time=2):
     aurora.select_month_data()
     aurora.select_previous(sleep_time)
     aurora.do_download(sleep_time)
+
+    aurora.do_logout()

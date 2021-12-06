@@ -17,6 +17,7 @@ class AuroraPlatform(BasePage):
     _PREVIOUS_BUTTON = (By.XPATH, "//a[@class='prev']")
     _NO_DATA_MESSAGE = (By.XPATH, "//div[@class='alert alert-info noChartData hideOnLoad']")
     _DOWNLOAD_BUTTON = (By.XPATH, "//a[@class='btn btn-secondary download']")
+    _MENU_BUTTON = (By.XPATH, '//a[@id="user_menu"]')
 
     """ Class constructor extending BasePage """
 
@@ -72,3 +73,7 @@ class AuroraPlatform(BasePage):
             self.do_click(self._DOWNLOAD_BUTTON)
             sleep(sleep_time)
             return True
+
+    def do_logout(self):
+        self.open_drop_menu(self._MENU_BUTTON)
+

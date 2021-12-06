@@ -17,7 +17,8 @@ class AuroraPlatform(BasePage):
     _PREVIOUS_BUTTON = (By.XPATH, "//a[@class='prev']")
     _NO_DATA_MESSAGE = (By.XPATH, "//div[@class='alert alert-info noChartData hideOnLoad']")
     _DOWNLOAD_BUTTON = (By.XPATH, "//a[@class='btn btn-secondary download']")
-    _MENU_BUTTON = (By.XPATH, '//a[@id="user_menu"]')
+    _MENU_BUTTON_LOCATOR = (By.XPATH, '//a[@id="user_menu"]')
+    _LOGOUT_BUTTON_LOCATOR = (By.XPATH, '//a[@id="logout"]')
 
     """ Class constructor extending BasePage """
 
@@ -75,5 +76,12 @@ class AuroraPlatform(BasePage):
             return True
 
     def do_logout(self):
-        self.open_drop_menu(self._MENU_BUTTON)
+        self.open_drop_menu(self._MENU_BUTTON_LOCATOR)
 
+        logout_button_clickable = self .is_clickable(self._LOGOUT_BUTTON_LOCATOR)
+
+        if not logout_button_clickable:
+            raise RuntimeError("Unable to interact with the Logout button")
+
+        if logout_button_clickable:
+            self.do_click(self._LOGOUT_BUTTON_LOCATOR)

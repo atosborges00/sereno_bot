@@ -24,14 +24,19 @@ class AuroraPlatform(BasePage):
         super().__init__(driver)
         self.driver.get(ConfigAurora.LOGIN_URL)
 
-    def do_login(self, username, password):
+    def do_login(self, username, password, sleep_time=5):
         self.do_send_keys(self._EMAIL_LOCATOR, username)
         self.do_send_keys(self._PASSWORD_LOCATOR, password)
         self.do_click(self._LOGIN_BUTTON_LOCATOR)
         period_nav_located = self.is_present(self._DATES_NAV_LOCATOR)
 
         if not period_nav_located:
-            raise RuntimeError("Unable to login")
+            sleep(sleep_time)
+            if not self.is_present(self._DATES_NAV_LOCATOR):
+                return False
+
+        if period_nav_located:
+            return True
 
     def select_month_data(self):
         month_button_clickable = self.is_clickable(self._DATES_NAV_LOCATOR)

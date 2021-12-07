@@ -96,3 +96,6 @@ class AuroraPlatform(BasePage):
 
         if not matches_found:
             return False
+
+    def return_to_login(self):
+        self.driver.get(ConfigAurora.LOGIN_URL)

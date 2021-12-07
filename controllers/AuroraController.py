@@ -49,3 +49,4 @@ def run(plants, keys, folder_name, sleep_time=2, export_log=True):
         _download_checking(aurora, downloaded, plants, current_plant, download_number, download_log, export_log)
 
         aurora.do_logout()
+        aurora.return_to_login()

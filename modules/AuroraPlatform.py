@@ -85,3 +85,14 @@ class AuroraPlatform(BasePage):
 
         if logout_button_clickable:
             self.do_click(self._LOGOUT_BUTTON_LOCATOR)
+
+    def check_download(self, download_number) -> bool:
+
+        downloaded_files = self.get_files_in(ConfigAurora.PREFERENCES['download.default_directory'])
+        matches_found = [file for file in downloaded_files if download_number in file]
+
+        if matches_found:
+            return True
+
+        if not matches_found:
+            return False

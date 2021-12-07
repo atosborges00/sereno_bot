@@ -13,10 +13,10 @@ class AuroraPlatform(BasePage):
     _PASSWORD_LOCATOR = (By.XPATH, "//input[@id='password']")
     _LOGIN_BUTTON_LOCATOR = (By.XPATH, "//button[@name='login-btn']")
     _DATES_NAV_LOCATOR = (By.XPATH, "//div[@class='nav']")
-    _MTD_BUTTON = (By.XPATH, "//li[@duration='MTD']")
-    _PREVIOUS_BUTTON = (By.XPATH, "//a[@class='prev']")
-    _NO_DATA_MESSAGE = (By.XPATH, "//div[@class='alert alert-info noChartData hideOnLoad']")
-    _DOWNLOAD_BUTTON = (By.XPATH, "//a[@class='btn btn-secondary download']")
+    _MTD_BUTTON_LOCATOR = (By.XPATH, "//li[@duration='MTD']")
+    _PREVIOUS_BUTTON_LOCATOR = (By.XPATH, "//a[@class='prev']")
+    _NO_DATA_MESSAGE_LOCATOR = (By.XPATH, "//div[@class='alert alert-info noChartData hideOnLoad']")
+    _DOWNLOAD_BUTTON_LOCATOR = (By.XPATH, "//a[@class='btn btn-secondary download']")
     _MENU_BUTTON_LOCATOR = (By.XPATH, '//a[@id="user_menu"]')
     _LOGOUT_BUTTON_LOCATOR = (By.XPATH, '//a[@id="logout"]')
 
@@ -47,23 +47,23 @@ class AuroraPlatform(BasePage):
             raise RuntimeError("Unable to interact with the MTD button")
 
         if month_button_clickable:
-            self.do_click(self._MTD_BUTTON)
+            self.do_click(self._MTD_BUTTON_LOCATOR)
 
     def select_previous(self, sleep_time):
-        previous_button_clickable = self.is_clickable(self._PREVIOUS_BUTTON)
+        previous_button_clickable = self.is_clickable(self._PREVIOUS_BUTTON_LOCATOR)
 
         if not previous_button_clickable:
             raise RuntimeError("Unable to interact with the Previous button")
 
         if previous_button_clickable:
-            self.do_click(self._PREVIOUS_BUTTON)
+            self.do_click(self._PREVIOUS_BUTTON_LOCATOR)
             sleep(sleep_time)
 
     def do_download(self, sleep_time):
-        download_button_clickable = self.is_clickable(self._DOWNLOAD_BUTTON)
+        download_button_clickable = self.is_clickable(self._DOWNLOAD_BUTTON_LOCATOR)
 
         if not download_button_clickable:
-            no_data_message_visible = self.is_visible(self._NO_DATA_MESSAGE)
+            no_data_message_visible = self.is_visible(self._NO_DATA_MESSAGE_LOCATOR)
 
             if not no_data_message_visible:
                 raise RuntimeError("Unable to interact with the Download button")
@@ -71,7 +71,7 @@ class AuroraPlatform(BasePage):
                 return False
 
         if download_button_clickable:
-            self.do_click(self._DOWNLOAD_BUTTON)
+            self.do_click(self._DOWNLOAD_BUTTON_LOCATOR)
             sleep(sleep_time)
             return True
 

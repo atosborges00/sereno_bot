@@ -32,7 +32,7 @@ def _download_checking(aurora_driver, downloaded, plants, current_plant, downloa
 def run(plants, keys, folder_name, sleep_time=2, export_log=True):
     download_log = []
     download_number = 0
-    PLANTS_INDICES = [index for index in range(len(plants.login_codes)) if plants.platform_names[index] == 'AURORA VISION']
+    PLANTS_INDICES = range(plants.auroravision['starting_index'], plants.auroravision['ending_index']+1)
 
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=_set_download_path(folder_name))
     aurora = AuroraPlatform(driver)

@@ -42,7 +42,12 @@ def run(plants, keys, folder_name, sleep_time=2, export_log=True):
         aurora.do_login(keys.logins[plants.login_codes[current_plant]-1],
                         keys.passwords[plants.login_codes[current_plant]-1])
 
-        aurora.select_month_data(sleep_time)
+        try:
+            aurora.select_month_data(sleep_time)
+        except RuntimeError:
+            aurora.return_to_login()
+            continue
+
         aurora.select_previous(sleep_time)
 
         downloaded = aurora.do_download(sleep_time)

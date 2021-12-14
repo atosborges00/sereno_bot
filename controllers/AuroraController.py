@@ -26,7 +26,7 @@ def _download_checking(aurora_driver, downloaded, plants, current_plant, downloa
         download_log.append([plants.plants_names[current_plant], 'OK'])
 
         if export_log:
-            BaseController.export_log_file(download_log)
+            BaseController.export_log_file(download_log, ConfigAurora.PREFERENCES['download.default_directory'])
 
 
 def run(plants, keys, folder_name, sleep_time=2, export_log=True):
@@ -42,7 +42,7 @@ def run(plants, keys, folder_name, sleep_time=2, export_log=True):
         aurora.do_login(keys.logins[plants.login_codes[current_plant]-1],
                         keys.passwords[plants.login_codes[current_plant]-1])
 
-        aurora.select_month_data()
+        aurora.select_month_data(sleep_time)
         aurora.select_previous(sleep_time)
 
         downloaded = aurora.do_download(sleep_time)

@@ -40,7 +40,7 @@ class AuroraPlatform(BasePage):
         if period_nav_located:
             return True
 
-    def select_month_data(self):
+    def select_month_data(self, sleep_time):
         month_button_clickable = self.is_clickable(self._DATES_NAV_LOCATOR)
 
         if not month_button_clickable:
@@ -48,6 +48,7 @@ class AuroraPlatform(BasePage):
 
         if month_button_clickable:
             self.do_click(self._MTD_BUTTON_LOCATOR)
+            sleep(sleep_time)
 
     def select_previous(self, sleep_time):
         previous_button_clickable = self.is_clickable(self._PREVIOUS_BUTTON_LOCATOR)

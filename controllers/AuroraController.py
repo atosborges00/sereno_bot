@@ -47,10 +47,14 @@ def run(plants, keys, folder_name, sleep_time=2, export_log=True):
             continue
 
         aurora.select_month_data(sleep_time)
-
         aurora.select_previous(sleep_time)
 
-        downloaded = aurora.do_download(sleep_time)
+        try:
+            downloaded = aurora.do_download(sleep_time)
+        except RuntimeError:
+            aurora.return_to_login()
+            continue
+
         _download_checking(aurora, downloaded, plants, current_plant, download_number, download_log, export_log)
 
         aurora.do_logout()

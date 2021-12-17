@@ -13,6 +13,7 @@ class AuroraPlatform(BasePage):
     _PASSWORD_LOCATOR = (By.XPATH, "//input[@id='password']")
     _LOGIN_BUTTON_LOCATOR = (By.XPATH, "//button[@name='login-btn']")
     _DATES_NAV_LOCATOR = (By.XPATH, "//div[@class='nav']")
+    _HEADER_LOCATOR = (By.XPATH, "//h3[@class='H3_headline']")
     _MTD_BUTTON_LOCATOR = (By.XPATH, "//li[@duration='MTD']")
     _PREVIOUS_BUTTON_LOCATOR = (By.XPATH, "//a[@class='prev']")
     _NO_DATA_MESSAGE_LOCATOR = (By.XPATH, "//div[@class='alert alert-info noChartData hideOnLoad']")
@@ -26,19 +27,24 @@ class AuroraPlatform(BasePage):
         super().__init__(driver)
         self.driver.get(ConfigAurora.LOGIN_URL)
 
-    def do_login(self, username, password, sleep_time=5):
+    def _login_verification(self) -> bool:
+        header_located = self.is_present(self._DATES_NAV_LOCATOR)
+        period_nav_located = self.is_present(self._DATES_NAV_LOCATOR)
+
+        if not header_located:
+            raise RuntimeError("Unable to login on the platform. Blocked by the webserver")
+
+        if not period_nav_located:
+            return False
+        else:
+            return True
+
+    def do_login(self, username, password):
         self.do_send_keys(self._EMAIL_LOCATOR, username)
         self.do_send_keys(self._PASSWORD_LOCATOR, password)
         self.do_click(self._LOGIN_BUTTON_LOCATOR)
-        period_nav_located = self.is_present(self._DATES_NAV_LOCATOR)
 
-        if not period_nav_located:
-            sleep(sleep_time)
-            if not self.is_present(self._DATES_NAV_LOCATOR):
-                return False
-
-        if period_nav_located:
-            return True
+        return self._login_verification()
 
     def select_month_data(self, sleep_time):
         month_button_clickable = self.is_clickable(self._DATES_NAV_LOCATOR)

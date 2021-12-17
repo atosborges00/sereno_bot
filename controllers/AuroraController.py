@@ -42,9 +42,13 @@ def run(plants, keys, folder_name, sleep_time=2, export_log=True):
         try:
             aurora.do_login(keys.logins[plants.login_codes[current_plant]-1],
                             keys.passwords[plants.login_codes[current_plant]-1])
-        except RuntimeError:
+        except AssertionError:
             aurora.return_to_login()
             continue
+        except RuntimeError:
+            print("Probably blocked by the webserver. Please resume download from: "
+                  "{plant_name}".format(plant_name=plants.plants_names[current_plant]))
+            return False
 
         aurora.select_month_data(sleep_time)
         aurora.select_previous(sleep_time)

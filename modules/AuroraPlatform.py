@@ -20,6 +20,7 @@ class AuroraPlatform(BasePage):
     _DOWNLOAD_BUTTON_LOCATOR = (By.XPATH, "//a[@class='btn btn-secondary download']")
     _MENU_BUTTON_LOCATOR = (By.XPATH, '//a[@id="user_menu"]')
     _LOGOUT_BUTTON_LOCATOR = (By.XPATH, '//a[@id="logout"]')
+    _ERROR_MESSAGE_LOCATOR = (By.XPATH, '//div[@id="alert-eula"]')
 
     """ Class constructor extending BasePage """
 
@@ -30,9 +31,13 @@ class AuroraPlatform(BasePage):
     def _login_verification(self) -> bool:
         header_located = self.is_present(self._DATES_NAV_LOCATOR)
         period_nav_located = self.is_present(self._DATES_NAV_LOCATOR)
+        error_message_visible = self.is_visible(self._ERROR_MESSAGE_LOCATOR)
+
+        if error_message_visible:
+            raise RuntimeError("Unable to login on the platform. Please verify the plant again later.")
 
         if not header_located:
-            raise RuntimeError("Unable to login on the platform. Blocked by the webserver")
+            raise AssertionError("Unable to login on the platform. Blocked by the webserver")
 
         if not period_nav_located:
             return False

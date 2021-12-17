@@ -111,3 +111,7 @@ class AuroraPlatform(BasePage):
 
     def return_to_login(self):
         self.driver.get(ConfigAurora.LOGIN_URL)
+
+    @staticmethod
+    def wait_reconnection():
+        sleep(60)

@@ -72,3 +72,5 @@ def run(plants, keys, folder_name, sleep_time=2, export_log=True):
 
         aurora.do_logout()
         aurora.return_to_login()
+
+    driver.quit()

@@ -16,20 +16,61 @@ def _set_download_path(folder_name):
     return AURORA_OPTIONS
 
 
-def run(plants, keys, folder_name, sleep_time=2):
+def _download_checking(aurora_driver, downloaded, plants, current_plant, download_number, download_log, export_log):
+    if not downloaded:
+        download_log.append([plants.plants_names[current_plant], 'SEM DADOS'])
 
-    PLANTS_INDICES = [index for index in range(len(plants.login_codes)) if plants.platform_names[index] == 'AURORA VISION']
+    if downloaded:
+        downloaded += 1
+        aurora_driver.check_download(str(download_number))
+        download_log.append([plants.plants_names[current_plant], 'OK'])
+
+        if export_log:
+            BaseController.export_log_file(download_log, ConfigAurora.PREFERENCES['download.default_directory'])
+
+
+def run(plants, keys, folder_name, sleep_time=2, export_log=True):
+    download_log = []
+    download_number = 0
+    PLANTS_INDICES = range(plants.auroravision['starting_index'], plants.auroravision['ending_index']+1)
 
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=_set_download_path(folder_name))
     aurora = AuroraPlatform(driver)
 
-    aurora.do_login(keys.logins[plants.login_codes[PLANTS_INDICES[0]]-1],
-                    keys.passwords[plants.login_codes[PLANTS_INDICES[0]]-1])
+    for current_plant in PLANTS_INDICES:
 
-    aurora.select_month_data()
-    aurora.select_previous(sleep_time)
-    aurora.do_download(sleep_time)
+        try:
+            aurora.do_login(keys.logins[plants.login_codes[current_plant]-1],
+                            keys.passwords[plants.login_codes[current_plant]-1])
 
-    aurora.do_logout()
+        except AssertionError:
+            downloaded = False
+            _download_checking(aurora, downloaded, plants, current_plant, download_number, download_log, export_log)
+            aurora.return_to_login()
+            continue
 
-    aurora.check_download(str(3))
+        except RuntimeError:
+            print("Probably blocked by the webserver. The download will resume in one minute")
+            downloaded = False
+            _download_checking(aurora, downloaded, plants, current_plant, download_number, download_log, export_log)
+            aurora.wait_reconnection()
+            continue
+
+        aurora.select_month_data(sleep_time)
+        aurora.select_previous(sleep_time)
+
+        try:
+            downloaded = aurora.do_download(sleep_time)
+
+        except RuntimeError:
+            downloaded = False
+            _download_checking(aurora, downloaded, plants, current_plant, download_number, download_log, export_log)
+            aurora.return_to_login()
+            continue
+
+        _download_checking(aurora, downloaded, plants, current_plant, download_number, download_log, export_log)
+
+        aurora.do_logout()
+        aurora.return_to_login()
+
+    driver.quit()

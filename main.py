@@ -1,10 +1,13 @@
 from config.ConfigPaths import ConfigPaths
 from util.LoginsLoader import LoginsLoader
 from util.PlantsLoader import PlantsLoader
+from util.updaters import SicesUpdater
 from controllers import SicesController, AuroraController
 
 if __name__ == '__main__':
     """ Main function of the application """
+
+    SicesUpdater.run()
 
     plants = PlantsLoader(ConfigPaths.PLANTS)
     keys = LoginsLoader(ConfigPaths.LOGINS)

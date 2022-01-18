@@ -24,14 +24,14 @@ def _download_checking(sices_driver, downloaded, plants, plant, download_log, ex
             print("{plant_name} download confirmed".format(plant_name=plants.plants_names[plant]))
 
             if export_log:
-                BaseController.export_log_file(download_log)
+                BaseController.export_log_file(download_log, ConfigSices.PREFERENCES['download.default_directory'])
 
     if not downloaded:
         download_log.append([plants.plants_names[plant], 'SEM DADOS'])
         print("Unable to download {plant_name} data".format(plant_name=plants.plants_names[plant]))
 
         if export_log:
-            BaseController.export_log_file(download_log)
+            BaseController.export_log_file(download_log, ConfigSices.PREFERENCES['download.default_directory'])
 
 
 def _final_checking(sices_driver, plants, export_log):
@@ -47,7 +47,7 @@ def _final_checking(sices_driver, plants, export_log):
             download_log.append([plant, 'SEM DADOS'])
 
     if export_log:
-        BaseController.export_log_file(download_log)
+        BaseController.export_log_file(download_log, ConfigSices.PREFERENCES['download.default_directory'])
 
 
 def _set_download_path(folder_name):

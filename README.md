@@ -6,14 +6,15 @@ The Cruze bot for scraping data from the clients in all monitoring platforms use
 
 ## Version
 
-The bot is currently on `version 1.0`, the first version implemented with modularization.
+The bot is currently on `version 1.2.0`, collecting data from Sices and Aurora Vision platforms.
 
 ## Packages
 
-Run the follwing commands on the terminal to install the dependecies needed on the virtual enviroment.
+Run the following commands on the terminal to install the dependencies needed on the virtual environment. 
+We highly recommend the use of a library to manage and run your virtual environments.
 
-- `pip install selenium`
+- `$ pip install -r requirements.txt`
 
 ## Licensing
 
- All rights reserved to [Cruze Energia](https://energiacruze.com/)
+ All rights reserved to [Cruze Energia](https://energiacruze.com/).

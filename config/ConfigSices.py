@@ -4,10 +4,12 @@ from config.ConfigPaths import ConfigPaths
 
 class ConfigSices:
     
-    """ Sices platform useful URLs """
+    """ Sices platform useful URLs and constants """
 
     LOGIN_URL = 'https://monitoramento.sicessolar.com.br/login'
     ANALYTICS_PAGE = 'https://monitoramento.sicessolar.com.br/analytics?und={code}'
+    DEFAULT_EMAIL = 'projetos.energiacruze@outlook.com'
+    DEFAULT_PASSWORD = 'cruze2113'
 
     """ Sices platform default directories """
 

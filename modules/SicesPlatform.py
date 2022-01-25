@@ -21,6 +21,7 @@ class SicesPlatform(BasePage):
     _LOGOUT_BUTTON_LOCATOR = (By.XPATH, "//a[@href='https://monitoramento.sicessolar.com.br/login/sair']")
     _TABLE_LOCATOR = (By.XPATH, "//tbody")
     _PLANTS_NAMES_LOCATOR = (By.XPATH, "//a[@class='btn btn-xs']")
+    _INSTALLED_POWER_LOCATOR = (By.XPATH, "//td[@id='unidadePotencia']")
 
     """ Platform options configuration """
 
@@ -57,6 +58,11 @@ class SicesPlatform(BasePage):
 
         if not table_body_located:
             raise RuntimeError("Unable to open the UFVS page on the platform")
+
+    def get_installed_power(self):
+        installed_power_list = self.get_list_of_elements(self._INSTALLED_POWER_LOCATOR)
+
+        return [power.text.replace(',', '.') for power in installed_power_list]
 
     def get_plants_names(self):
         plants_list = self.get_list_of_elements(self._PLANTS_NAMES_LOCATOR)

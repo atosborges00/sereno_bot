@@ -18,6 +18,7 @@ class ConfigSices:
     """ Sices platform default directories """
 
     RAW_DATA_PATH = path.join(ConfigPaths.RAW_DATA_PATH, "sices")
+    DATABASE_PATH = path.join(ConfigPaths.DATABASE_PATH, "sices")
 
     """ Sices platform options settings """
 

@@ -13,7 +13,7 @@ class ConfigPaths:
 
     """ Path for project folders """
     
-    _DATABASE_PATH = path.join(_ROOT_DIR, "database")
+    DATABASE_PATH = path.join(_ROOT_DIR, "database")
 
     UTIL_PATH = path.join(_ROOT_DIR, "util")
     MODULES_PATH = path.join(_ROOT_DIR, "modules")
@@ -21,6 +21,6 @@ class ConfigPaths:
 
     """ Path for database tables """
 
-    PLANTS = path.join(_DATABASE_PATH, "plants.csv")
+    PLANTS = path.join(DATABASE_PATH, "plants.csv")
 
-    LOGINS = path.join(_DATABASE_PATH, "logins.csv")
+    LOGINS = path.join(DATABASE_PATH, "logins.csv")

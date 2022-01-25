@@ -64,10 +64,13 @@ class SicesPlatform(BasePage):
 
         return [power.text.replace(',', '.') for power in installed_power_list]
 
-    def get_plants_names(self):
+    def get_plants_info(self) -> dict:
         plants_list = self.get_list_of_elements(self._PLANTS_NAMES_LOCATOR)
 
-        return [plant.text for plant in plants_list]
+        plants = {'names': [plant.text for plant in plants_list],
+                  'codes': [plant.get_attribute('href').split('=')[-1] for plant in plants_list]}
+
+        return plants
 
     def _open_calendar(self):
         calendar_button_clickable = self.is_clickable(self._CALENDAR_BUTTON_LOCATOR)

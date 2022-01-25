@@ -10,7 +10,7 @@ class ConfigSices:
 
     LOGIN_URL = BASE_URL + '/login'
     ANALYTICS_PAGE = BASE_URL + '/analytics?und={code}'
-    UFVS_PAGE = BASE_URL + '/ufvs'
+    UFVS_PAGE = BASE_URL + '/ufvs?&p={page}'
 
     DEFAULT_EMAIL = 'projetos.energiacruze@outlook.com'
     DEFAULT_PASSWORD = 'cruze2113'

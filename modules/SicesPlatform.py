@@ -19,6 +19,7 @@ class SicesPlatform(BasePage):
     _MESSAGE_LOCATOR = (By.XPATH, "//span[@id='mensagem-info-text']")
     _DROP_MENU_LOCATOR = (By.XPATH, "//i[@class='fa fa-caret-down']")
     _LOGOUT_BUTTON_LOCATOR = (By.XPATH, "//a[@href='https://monitoramento.sicessolar.com.br/login/sair']")
+    _TABLE_LOCATOR = (By.XPATH, "//tbody")
 
     """ Platform options configuration """
 
@@ -48,6 +49,13 @@ class SicesPlatform(BasePage):
 
         if not calendar_button_located:
             raise RuntimeError("Unable to open the Analytics page on the platform")
+
+    def get_ufvs_page(self):
+        self.driver.get(ConfigSices.UFVS_PAGE)
+        table_body_located = self.is_present(self._TABLE_LOCATOR)
+
+        if not table_body_located:
+            raise RuntimeError("Unable to open the UFVS page on the platform")
 
     def _open_calendar(self):
         calendar_button_clickable = self.is_clickable(self._CALENDAR_BUTTON_LOCATOR)

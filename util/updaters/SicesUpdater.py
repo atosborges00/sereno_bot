@@ -11,3 +11,4 @@ def run():
     sices = SicesPlatform(driver)
 
     sices.do_login(username=ConfigSices.DEFAULT_EMAIL, password=ConfigSices.DEFAULT_PASSWORD)
+    sices.get_ufvs_page()

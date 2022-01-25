@@ -6,8 +6,12 @@ class ConfigSices:
     
     """ Sices platform useful URLs and constants """
 
-    LOGIN_URL = 'https://monitoramento.sicessolar.com.br/login'
-    ANALYTICS_PAGE = 'https://monitoramento.sicessolar.com.br/analytics?und={code}'
+    BASE_URL = 'https://monitoramento.sicessolar.com.br'
+
+    LOGIN_URL = BASE_URL + '/login'
+    ANALYTICS_PAGE = BASE_URL + '/analytics?und={code}'
+    UFVS_PAGE = BASE_URL + '/ufvs'
+
     DEFAULT_EMAIL = 'projetos.energiacruze@outlook.com'
     DEFAULT_PASSWORD = 'cruze2113'
 

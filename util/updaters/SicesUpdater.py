@@ -45,9 +45,8 @@ def run():
     sices_logins = []
 
     for index in range(len(plants_names)):
-        sices_logins.append([plants_names[index], plants_codes[index], plants_power[index]])
+        sices_logins.append([plants_names[index], plants_power[index], plants_codes[index], '1'])
 
-    with open(_DATABASE_FILE_PATH, 'w', newline='') as file:
-        file_writer = csv.writer(file)
-
+    with open(_DATABASE_FILE_PATH, 'a', newline='', encoding='utf-8') as file:
+        file_writer = csv.writer(file, delimiter=';')
         file_writer.writerows(sices_logins)

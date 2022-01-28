@@ -58,6 +58,15 @@ class BasePage:
         if menu_button_clickable:
             self.do_click(locator)
 
+    def get_list_of_elements(self, by_locator):
+        element_present = self.is_present(by_locator)
+
+        if not element_present:
+            raise RuntimeError("Unable to find {locator} element".format(locator=by_locator))
+
+        if element_present:
+            return self.driver.find_elements_by_xpath(by_locator[1])
+
     @staticmethod
     def get_files_in(directory_path) -> list:
         return [file for file in listdir(directory_path) if isfile(join(directory_path, file))]

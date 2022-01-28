@@ -1,6 +1,6 @@
 from config.ConfigPaths import ConfigPaths
-from util.LoginsLoader import LoginsLoader
-from util.PlantsLoader import PlantsLoader
+from util.loaders.LoginsLoader import LoginsLoader
+from util.loaders.PlantsLoader import PlantsLoader
 from util.updaters import SicesUpdater
 from controllers import SicesController, AuroraController
 

@@ -1,4 +1,4 @@
-from util.BaseLoader import BaseLoader
+from util.loaders.BaseLoader import BaseLoader
 
 """ Class responsible for loading the Login data from the database """
 

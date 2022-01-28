@@ -15,7 +15,7 @@ def _clean_list(list_to_clean):
 def run():
     """ Funcion for updating the plants on the Sices Platform """
 
-    _DATABASE_FILE_PATH = ConfigSices.DATABASE_PATH + "/plants.csv"
+    _DATABASE_FILE_PATH = ConfigSices.DATABASE_PATH + "/sices_plants.csv"
 
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=SicesPlatform.SICES_OPTIONS)
     sices = SicesPlatform(driver)
@@ -44,9 +44,13 @@ def run():
 
     sices_logins = []
 
-    for index in range(len(plants_names)):
-        sices_logins.append([plants_names[index], plants_power[index], plants_codes[index], '1'])
+    with open(_DATABASE_FILE_PATH, 'r', encoding='utf-8') as file:
+        file_reader = csv.reader(file, delimiter=';')
+        saved_plants = [plant[0] for plant in file_reader]
 
-    with open(_DATABASE_FILE_PATH, 'a', newline='', encoding='utf-8') as file:
-        file_writer = csv.writer(file, delimiter=';')
-        file_writer.writerows(sices_logins)
+    for plant in plants_names:
+        if plant not in saved_plants:
+            print("New plant on the platform: {new_plant}".format(new_plant=plant))
+            raise RuntimeError
+
+    print("The plant list is up to date")

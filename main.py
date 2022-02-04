@@ -12,6 +12,8 @@ if __name__ == '__main__':
     plants = PlantsLoader(ConfigPaths.PLANTS)
     keys = LoginsLoader(ConfigPaths.LOGINS)
 
-    AuroraController.run(plants, keys, folder_name='dez', sleep_time=4)
+    current_month = 'jan'
 
-    SicesController.run(plants, keys, 'Mês Passado', folder_name='dez', sleep_time=8)
+    AuroraController.run(plants, keys, folder_name=current_month, sleep_time=4)
+
+    SicesController.run(plants, keys, 'Mês Passado', folder_name=current_month, sleep_time=8)

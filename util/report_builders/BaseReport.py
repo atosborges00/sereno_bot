@@ -29,7 +29,8 @@ class BaseReport:
     def add_plants_status(self, status_list):
         self.df_report['status'] = status_list
 
-    def add_expected_generation(self, expected_generation_list):
+    def add_expected_generation(self):
+        expected_generation_list = self.df_report['installed_powers'] * 125
         self.df_report['expected_generation'] = expected_generation_list
 
     def add_performance(self, performance_list):

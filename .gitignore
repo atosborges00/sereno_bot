@@ -156,5 +156,8 @@ database
 #Raw Data folder
 raw_data
 
+#reports exporting folder
+reports
+
 # Add here the name of your virtual enviroment
 

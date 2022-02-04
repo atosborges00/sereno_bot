@@ -18,6 +18,7 @@ class ConfigPaths:
     UTIL_PATH = path.join(_ROOT_DIR, "util")
     MODULES_PATH = path.join(_ROOT_DIR, "modules")
     RAW_DATA_PATH = path.join(_ROOT_DIR, "raw_data")
+    REPORTS_DATA_PATH = path.join(_ROOT_DIR, "reports")
 
     """ Path for database tables """
 

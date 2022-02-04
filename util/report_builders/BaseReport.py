@@ -33,5 +33,13 @@ class BaseReport:
         expected_generation_list = self.df_report['installed_powers'] * 125
         self.df_report['expected_generation'] = expected_generation_list
 
-    def add_performance(self, performance_list):
-        self.df_report['performance'] = performance_list
+    def add_performance(self):
+        percent_difference = self.df_report['generation'] - self.df_report['expected_generation']
+        percent_difference = percent_difference.div(self.df_report['expected_generation']).mul(100)
+
+        self.df_report.loc[(percent_difference < 15) & (percent_difference > -20), 'performance'] = 1
+        self.df_report.loc[(percent_difference >= 15), 'performance'] = 2
+        self.df_report.loc[(percent_difference < -20) & (percent_difference > -50), 'performance'] = 3
+        self.df_report.loc[(percent_difference < -50) & (percent_difference > -95), 'performance'] = 4
+        self.df_report.loc[(percent_difference <= -95) & (self.df_report['status'] != 'no data'), 'performance'] = 5
+        self.df_report.loc[(self.df_report['status'] == 'no data'), 'performance'] = 6
